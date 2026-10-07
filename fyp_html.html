@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Math System</title>
+    <link rel="stylesheet" href="fyp_css.css">
+</head>
+<body>
+
+<div class="dynamic-bg">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<header class="iium-navbar glass-panel">
+  <div class="logo-container">
+    <strong>KICT</strong> <span class="nav-accent">| Adaptive Math System</span>
+  </div>
+  <nav class="nav-links">
+    <div id="authNav" class="hidden">
+      <a href="#" onclick="navTo('home')">Home</a>
+      <a href="#" onclick="navTo('performance')">Performance</a>
+      <a href="#" onclick="logoutUser()" class="logout-btn">Logout</a>
+    </div>
+  </nav>
+</header>
+
+<div id="app-container">
+  
+  <section id="page-login" class="view-section">
+    <div class="hero-text">
+      <h1>Welcome Back</h1>
+      <p>Log in to continue your adaptive learning journey.</p>
+    </div>
+    
+    <div class="panel glass-panel auth-panel">
+      <div class="form-group">
+        <input type="text" id="loginUsername" placeholder="Username" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+      </div>
+      <button class="arcade-btn primary-btn" onclick="loginUser()" style="width: 100%;">LOGIN <span class="arrow">>></span></button>
+      <p class="auth-link-text">
+        Don't have an account? <a href="#" class="auth-link" onclick="switchAuthView('register')">Register here</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="page-register" class="view-section hidden">
+    <div class="hero-text">
+      <h1>Master Mathematics<br><span class="highlight-text">with Adaptive AI</span></h1>
+      <p>Enter your details to create an account and initialize your learning path.</p>
+    </div>
+    
+    <div class="panel glass-panel">
+      <h3 class="section-title">Account Details</h3>
+      <div class="form-group">
+        <input type="text" id="regUsername" placeholder="Choose a Username" required>
+        <input type="password" id="regPassword" placeholder="Choose a Password" required>
+        <input type="text" id="regName" placeholder="Full Name" required>
+        <div style="display: flex; gap: 15px;">
+          <select id="regSex" style="flex: 1;" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          <select id="regAge" style="flex: 1;" required>
+            <option value="" disabled selected>Select Age</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 class="section-title">Academic Profiling</h3>
+      <div class="form-group">
+        <input type="number" id="regScore" placeholder="Latest Exam Score (%)" min="0" max="100" required>
+        <select id="regHomework">
+          <option value="" disabled selected>State of Homework</option>
+          <option value="usually">Usually Finished</option>
+          <option value="rarely">Rarely Finished</option>
+        </select>
+        <input type="number" id="regAttendance" placeholder="Attendance (%)" min="0" max="100" required>
+        <select id="regMotivation">
+          <option value="" disabled selected>Current Motivation State</option>
+          <option value="high">High</option>
+          <option value="moderate">Moderate</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+      <button class="arcade-btn accent-btn" onclick="registerUser()" style="width: 100%;">REGISTER & START <span class="arrow">>></span></button>
+      <p class="auth-link-text" style="text-align: center;">
+        Already have an account? <a href="#" class="auth-link" onclick="switchAuthView('login')">Log in here</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="page-dashboard" class="view-section hidden">
+    
+    <div class="student-banner glass-panel">
+      <div class="banner-content">
+        <p class="banner-subtitle">Student Dashboard</p>
+        <h1 id="welcomeMessage">Hi, User!</h1>
+        <div class="student-tags">
+          <span id="tagSex" class="cyber-tag">Gender</span>
+          <span id="tagAge" class="cyber-tag">Age</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="aiAnalysisCard" class="ai-analysis-card glass-panel">
+      <div class="ai-glow-bg"></div>
+      <div class="ai-header">
+        <span class="ai-label">AI Analysis Active</span>
+      </div>
+      <h2 id="profLevelDisplay">Analyzing...</h2>
+      <p>Focus Topic: <strong id="focusTopicDisplay" style="color: var(--primary);">Analyzing...</strong></p>
+      <div class="ai-icon-pulse">
+        <div class="ai-icon">AI</div>
+      </div>
+    </div>
+
+    <div class="action-cards-grid">
+      <div class="action-card glass-panel">
+        <div class="card-icon blue-glow">QZ</div>
+        <h3>Start Quiz</h3>
+        <p>Enter the adaptive quiz room. Questions are chosen based on your current proficiency.</p>
+        <button class="arcade-btn primary-btn" onclick="startQuiz()" style="width: 100%;">ANSWER NOW</button>
+      </div>
+      
+      <div class="action-card glass-panel">
+        <div class="card-icon green-glow">DT</div>
+        <h3>Performance Data</h3>
+        <p>View your achievement graphs, exact score history, and AI intervention statistics.</p>
+        <button class="arcade-btn outline-btn" onclick="navTo('performance')" style="width: 100%;">VIEW PERFORMANCE</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-quiz" class="view-section hidden">
+    <div class="quiz-layout-container">
+      <div class="quiz-main-content">
+        <div class="quiz-header glass-panel">
+          <div class="topic-badge">Current Topic</div>
+          <h2 id="questionTopic">Topic</h2>
+          <div class="quiz-controls">
+            <button class="arcade-btn small-arcade toggle-ai-btn" onclick="toggleChatbot()">AI Tutor</button>
+            <div id="timerDisplay" class="cyber-timer">Time: --</div>
+          </div>
+        </div>
+        
+        <div class="question-container glass-panel">
+          <div class="q-indicator">Question</div>
+          <p id="questionText" style="font-size: 1.3rem; font-weight: 700; margin-top: 5px;">Loading question...</p>
+          <div id="optionsContainer" class="options-grid"></div>
+        </div>
+      </div>
+
+      <div id="chatbotSidebar" class="ai-chatbot-panel glass-panel sidebar-panel">
+        <h3 class="neon-title">AI Assistant</h3>
+        <div id="chatLog" class="chat-log styled-scrollbar">
+          <div class="chat-message ai-message">System Online. I am your AI Tutor. Ask for hints, but note: each use deducts marks!</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Initialize query..." onkeypress="handleChatKeyPress(event)">
+          <button onclick="sendMessage()" class="send-btn">GO</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-analytics" class="view-section hidden">
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h1 class="section-title">Performance Analytics</h1>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-box glass-panel">
+        <h4>Questions Cleared</h4>
+        <p id="statTotalQ">0</p>
+      </div>
+      <div class="stat-box glass-panel">
+        <h4>Average Accuracy</h4>
+        <p id="statAvgScore">0%</p>
+      </div>
+      <div class="stat-box glass-panel ai-stat-box">
+        <h4>AI Interventions</h4>
+        <p id="statChatbotUses" style="color: var(--neon-purple);">0</p>
+      </div>
+    </div>
+
+    <div class="chart-container glass-panel" id="performanceChartBox" style="display: none;">
+      <h3 style="margin-top: 0; display: flex; align-items: center; gap: 10px;">Time Tracking Matrix</h3>
+      <div class="chart-bars styled-scrollbar" id="chartBars"></div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-color" style="background: var(--success);"></span> </span>
+        <span class="legend-item"><span class="legend-color" style="background: var(--danger);"></span> </span>
+      </div>
+    </div>
+
+    <div class="chart-container glass-panel" id="scoreChartBox" style="display: none;">
+      <h3 style="margin-top: 0; display: flex; align-items: center; gap: 10px;">Score vs. AI Dependency</h3>
+      <div class="chart-bars styled-scrollbar" id="scoreChartBars"></div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-color" style="background: var(--primary);"></span> Score (%)</span>
+        <span class="legend-item"><span class="legend-color" style="background: var(--gamify-gold);"></span> AI Uses</span>
+      </div>
+    </div>
+
+    <div class="panel glass-panel">
+      <h3 style="margin-top: 0;">Detailed Quiz Log</h3>
+      <ul id="historyList" class="history-list"></ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <button class="arcade-btn primary-btn" onclick="navTo('home')">RETURN TO DASHBOARD</button>
+    </div>
+  </section>
+
+  <div id="resultModal" class="modal hidden">
+    <div class="modal-content glass-panel">
+      <h2 id="resultTitle" style="font-size: 2.5rem; margin-top: 10px;">Result</h2>
+      
+      <div class="modal-stats cyber-stats">
+        <div class="stat-pill"><strong>Score</strong> <span id="resultScore" class="score-val">0</span></div>
+        <div class="stat-pill"><strong>Time</strong> <span id="resultTime">0</span>s</div>
+        <div class="stat-pill ai-pill"><strong>AI Uses</strong> <span id="resultChat Uses">0</span></div>
+      </div>
+      <p class="deduction-text">Mark Deductions: <span id="resultDeductions" style="font-weight: bold;">0</span></p>
+      
+      <div class="ai-analysis-box">
+        <strong>System Feedback:</strong>
+        <p id="resultAnalysis" style="margin: 5px 0 0 0;">...</p>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="arcade-btn outline-btn" onclick="goToDashboard()">DASHBOARD</button>
+        <button class="arcade-btn accent-btn" onclick="nextQuestion()">NEXT <span class="arrow">>></span></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="timeoutModal" class="modal hidden">
+    <div class="modal-content glass-panel border-danger">
+      <h2 style="color: var(--danger); font-size: 2.5rem; margin-top: 10px;">Time's Up!</h2>
+      <p style="font-size: 1.1rem;">The countdown reached zero.</p>
+      
+      <div class="ai-analysis-box" style="border-left-color: var(--danger); background: rgba(229, 62, 62, 0.1);">
+        <strong>AI Hint for next time:</strong>
+        <p id="timeoutHint" style="margin: 5px 0 0 0;">...</p>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="arcade-btn outline-btn" onclick="goToDashboard()">DASHBOARD</button>
+        <button class="arcade-btn primary-btn" onclick="nextQuestion()">TRY AGAIN</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Link to the JS file -->
+<script src="fyp_json.js"></script>
+
+</body>
+</html>
